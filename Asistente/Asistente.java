@@ -21,7 +21,6 @@ import java.awt.event.KeyListener;
 public class Asistente extends JFrame implements KeyListener {
 	
 	boolean ocupado;
-	boolean candadito;
 	
 	List <Llamada> llamadas;
 	List <Noticia> noticias;
@@ -36,7 +35,6 @@ public class Asistente extends JFrame implements KeyListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			      
 		this.ocupado = false;
-		this.candadito = false;
 		
 		this.llamadas = new ArrayList<>();
 		this.noticias = new ArrayList<>();
@@ -52,96 +50,60 @@ public class Asistente extends JFrame implements KeyListener {
 				//se utiliza un numero random para darle un nombre aleatorio a la noticia
 				numero = random.nextInt(400) + 100;
 				
-				if(this.ocupado) {
-					this.noticias.add(new Noticia(numero));
-				}else {
-					Noticia noticiaEntrante = new Noticia(numero);
-					noticiaEntrante.mostrar(this.ocupado);
-					//ELIMINAR
-				}
+				generaNoticia(numero);
 			}
 			
 			if(random.nextInt(100) <= 10) {
-				numero = random.nextInt(60000000) + 40000000; //numero de telefono aleatorio
+				//numero de telefono aleatorio
+				numero = random.nextInt(60000000) + 40000000;
 				
-				if(this.ocupado) {
-					this.llamadas.add(new Llamada(numero));
-				}else {
-					Llamada llamadaEntrante = new Llamada(numero);
-					llamadaEntrante.mostrar(this.ocupado);
-					//ELIMINAR
-				}
+				generaLlamada(numero);
 			}
 			
-			/*if(random.nextInt(100) <= 10 && !this.candadito) {				
-				String nuevaTarea;
-				int horaTarea, minutoTarea;
-				
-				Scanner in = new Scanner(System.in);
-				System.out.print("Ingrese nueva tarea: ");
-				nuevaTarea = in.nextLine();
-				System.out.print("Hora de la tarea: ");
-				horaTarea = in.nextInt();
-				System.out.print("Minutos de la tarea: ");
-				minutoTarea = in.nextInt();
-				
-				this.tareas.add(new Tarea(nuevaTarea, horaTarea, minutoTarea));
-				this.candadito = true;
-				
-			}
+			mostrarTareas();
 			
-			if(random.nextInt(100) <= 5) {
-				if(this.ocupado) {
-					this.ocupado = false;
-					System.out.println("Modo ocupado desactivado");
-					if(this.llamadas.size() > 0) {
-						for(int i = 0; i < this.llamadas.size(); i++) {
-							Llamada entrante = (Llamada) this.llamadas.get(i);
-							entrante.mostrar(!this.ocupado);
-						}
-					}
-					if(this.noticias.size() > 0) {
-						for(int i = 0; i < this.noticias.size(); i++) {
-							Noticia entrante = (Noticia) this.noticias.get(i);
-							entrante.mostrar(!this.ocupado);
-						}
-					}
-				}else {
-					this.ocupado = true;
-					System.out.println("Modo ocupado activado");
-				}
-			}*/
-			
-			if(this.tareas.size() > 0) {
-				for(int i = 0; i < this.tareas.size(); i++) {
-					Tarea entrante = (Tarea) this.tareas.get(i);
-					entrante.mostrar();
-				}
-			}
-			
-			//pausa
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+			pausa(1000);
+		}
+	}
+	
+	public void generaLlamada(int numero) {
+		if(this.ocupado) {
+			this.llamadas.add(new Llamada(numero));
+		}else {
+			Llamada llamadaEntrante = new Llamada(numero);
+			llamadaEntrante.mostrar(this.ocupado);
+			//ELIMINAR
+		}
+	}
+	
+	public void generaNoticia(int numero) {
+		if(this.ocupado) {
+			this.noticias.add(new Noticia(numero));
+		}else {
+			Noticia noticiaEntrante = new Noticia(numero);
+			noticiaEntrante.mostrar(this.ocupado);
+			//ELIMINAR
+		}
+	}
+	
+	public void mostrarTareas() {
+		if(this.tareas.size() > 0) {
+			for(int i = 0; i < this.tareas.size(); i++) {
+				Tarea entrante = (Tarea) this.tareas.get(i);
+				entrante.mostrar();
 			}
 		}
 	}
 	
-	/*class DrawCanvas extends JPanel {
-		public void paintComponent(Graphics g) {
-			super.paintComponent(g);
-			setBackground(Color.WHITE);
+	public void pausa(int numero) {
+		try {
+			Thread.sleep(numero);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
-	}*/
+	}
 	
 	public static void main(String[] args) {
-		/*try {
-            Asistente window = new Asistente();
-            window.frame.setVisible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
 		new Asistente();
 	}
 
