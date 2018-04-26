@@ -24,7 +24,7 @@ public class Tarea {
 		this.hora = calendario.get(Calendar.HOUR_OF_DAY); //Estos valores no se actualizan!!
 		this.minuto = calendario.get(Calendar.MINUTE);
 		
-		System.out.println(this.hora + ":" + this.minuto);
+		//System.out.println(this.hora + ":" + this.minuto);
 		
 		if((this.m == this.minuto) && (this.h == this.hora) && !this.candado) {
 			System.out.println("Recordatorio tarea: " + tarea);
