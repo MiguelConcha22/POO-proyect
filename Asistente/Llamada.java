@@ -22,13 +22,17 @@ public class Llamada {
 	}
 	
 	
-	public void mostrar(boolean ocupado) {
+	public void mostrar(boolean ocupado, Marco marco) {
 		if(!ocupado) {
 			System.out.println("llamada entrante de: +569" + numero);
 			System.out.println("a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("llamada entrante de: +569" + numero + " a las : " + h + ":" + m);
+			marco.recargarLamina();
 		}else{
 			System.out.println("llamada perdida de: +569" + numero);
 			System.out.println("a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("llamada perdida de: +569" + numero + " a las : " + h + ":" + m);
+			marco.recargarLamina();
 		}
 	}
 

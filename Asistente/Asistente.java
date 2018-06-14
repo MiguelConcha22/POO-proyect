@@ -14,25 +14,30 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
-import javax.swing.JFrame;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import javax.swing.*;
+import java.awt.event.*;
 
 public class Asistente extends JFrame implements KeyListener {
-	
+	private static final long serialVersionUID = 1L;
+
 	boolean ocupado;
 	
 	List <Llamada> llamadas;
 	List <Noticia> noticias;
 	List <Tarea> tareas;
+
+	private Scanner in;
 	
+	Marco miMarco;
 	
 	public Asistente() {
-		addKeyListener(this);
 		
-		setSize(300, 300);
-		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		miMarco = new Marco();
+		
+		miMarco.setVisible(true);
+		miMarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		miMarco.addKeyListener(this);
 			      
 		this.ocupado = false;
 		
@@ -71,7 +76,7 @@ public class Asistente extends JFrame implements KeyListener {
 			this.llamadas.add(new Llamada(numero));
 		}else {
 			Llamada llamadaEntrante = new Llamada(numero);
-			llamadaEntrante.mostrar(this.ocupado);
+			llamadaEntrante.mostrar(this.ocupado, miMarco);
 			//ELIMINAR
 		}
 	}
@@ -81,7 +86,7 @@ public class Asistente extends JFrame implements KeyListener {
 			this.noticias.add(new Noticia(numero));
 		}else {
 			Noticia noticiaEntrante = new Noticia(numero);
-			noticiaEntrante.mostrar(this.ocupado);
+			noticiaEntrante.mostrar(this.ocupado, miMarco);
 			//ELIMINAR
 		}
 	}
@@ -112,28 +117,32 @@ public class Asistente extends JFrame implements KeyListener {
 			if(this.ocupado) {
 				this.ocupado = false;
 				System.out.println("Modo ocupado desactivado");
+				miMarco.lamina.agregarPalabra("Modo ocupado desactivado");
+				miMarco.recargarLamina();
 				if(this.llamadas.size() > 0) {
 					for(int i = 0; i < this.llamadas.size(); i++) {
 						Llamada entrante = (Llamada) this.llamadas.get(i);
-						entrante.mostrar(!this.ocupado);
+						entrante.mostrar(!this.ocupado, miMarco);
 					}
 				}
 				if(this.noticias.size() > 0) {
 					for(int i = 0; i < this.noticias.size(); i++) {
 						Noticia entrante = (Noticia) this.noticias.get(i);
-						entrante.mostrar(!this.ocupado);
+						entrante.mostrar(!this.ocupado, miMarco);
 					}
 				}
 			}
 			else {
 				this.ocupado = true;
 				System.out.println("Modo ocupado activado");
+				miMarco.lamina.agregarPalabra("Modo ocupado activado");
+				miMarco.recargarLamina();
 			}
 		else if(KeyEvent.VK_2 == e.getKeyCode()) {
 			String nuevaTarea;
 			int horaTarea, minutoTarea;
 			
-			Scanner in = new Scanner(System.in);
+			in = new Scanner(System.in);
 			System.out.print("Ingrese nueva tarea: ");
 			nuevaTarea = in.nextLine();
 			System.out.print("Hora de la tarea: "); //solo hora
@@ -152,6 +161,14 @@ public class Asistente extends JFrame implements KeyListener {
 	}
 }
 
-//PROBLEMA CON IF DE TAREA, NO SE ACTUALIZAN LOS VALORES DE HORA
+// PREGUNTAR POR RRSS
+// PREGUNTAR POR "NUMEROS REALES"
+
+// CAMBIAR COLORES PALABRAS
+// SEPARAR HORAS
+// AGREGAR TAREA DESDE INTERFAZ GRAFICA
+// PONER INSTRUCCIONES
+
+// PROBLEMA CON IF DE TAREA, NO SE ACTUALIZAN LOS VALORES DE HORA
 // FALTA ELIMINAR LLAMADAS Y NOTICIAS ENTRANTES Y LAS QUE SE ELIMINAN DE LA LISTA
 // ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0)
