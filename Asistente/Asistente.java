@@ -15,7 +15,11 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 import javax.swing.*;
+
+import twitter4j.TwitterException;
+
 import java.awt.event.*;
+import java.io.IOException;
 
 public class Asistente extends JFrame implements KeyListener {
 	private static final long serialVersionUID = 1L;
@@ -23,26 +27,28 @@ public class Asistente extends JFrame implements KeyListener {
 	boolean ocupado;
 	
 	List <Llamada> llamadas;
-	List <Noticia> noticias;
 	List <Tarea> tareas;
 
 	private Scanner in;
 	
 	Marco miMarco;
 	
-	public Asistente() {
-		
+	TwitterStreamTest twStream;
+	
+	public Asistente() throws TwitterException, IOException {		
 		miMarco = new Marco();
 		
 		miMarco.setVisible(true);
 		miMarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		miMarco.addKeyListener(this);
+		
+		twStream = new TwitterStreamTest();
+		twStream.start(miMarco);
 			      
 		this.ocupado = false;
 		
 		this.llamadas = new ArrayList<>();
-		this.noticias = new ArrayList<>();
 		this.tareas = new ArrayList<>();
 		
 		Random random = new Random();
@@ -50,13 +56,6 @@ public class Asistente extends JFrame implements KeyListener {
 		
 		while(true) {
 			//System.out.println(this.ocupado);
-			
-			if(random.nextInt(100) <= 10) {
-				//se utiliza un numero random para darle un nombre aleatorio a la noticia
-				numero = random.nextInt(400) + 100;
-				
-				generaNoticia(numero);
-			}
 			
 			if(random.nextInt(100) <= 10) {
 				//numero de telefono aleatorio
@@ -81,15 +80,14 @@ public class Asistente extends JFrame implements KeyListener {
 		}
 	}
 	
-	public void generaNoticia(int numero) {
+	/*public void generaNoticia(String numero) {
 		if(this.ocupado) {
 			this.noticias.add(new Noticia(numero));
 		}else {
 			Noticia noticiaEntrante = new Noticia(numero);
 			noticiaEntrante.mostrar(this.ocupado, miMarco);
-			//ELIMINAR
 		}
-	}
+	}*/
 	
 	public void mostrarTareas() {
 		if(this.tareas.size() > 0) {
@@ -108,7 +106,7 @@ public class Asistente extends JFrame implements KeyListener {
 		}
 	}
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws TwitterException, IOException {
 		new Asistente();
 	}
 
@@ -116,6 +114,7 @@ public class Asistente extends JFrame implements KeyListener {
 		if(KeyEvent.VK_1 == e.getKeyCode())
 			if(this.ocupado) {
 				this.ocupado = false;
+				twStream.ocupado = false;
 				System.out.println("Modo ocupado desactivado");
 				miMarco.lamina.agregarPalabra("Modo ocupado desactivado");
 				miMarco.recargarLamina();
@@ -125,15 +124,16 @@ public class Asistente extends JFrame implements KeyListener {
 						entrante.mostrar(!this.ocupado, miMarco);
 					}
 				}
-				if(this.noticias.size() > 0) {
-					for(int i = 0; i < this.noticias.size(); i++) {
-						Noticia entrante = (Noticia) this.noticias.get(i);
+				if(twStream.noticias.size() > 0) {
+					for(int i = 0; i < twStream.noticias.size(); i++) {
+						Noticia entrante = (Noticia) twStream.noticias.get(i);
 						entrante.mostrar(!this.ocupado, miMarco);
 					}
 				}
 			}
 			else {
 				this.ocupado = true;
+				twStream.ocupado = true;
 				System.out.println("Modo ocupado activado");
 				miMarco.lamina.agregarPalabra("Modo ocupado activado");
 				miMarco.recargarLamina();
@@ -161,14 +161,10 @@ public class Asistente extends JFrame implements KeyListener {
 	}
 }
 
-// PREGUNTAR POR RRSS
-// PREGUNTAR POR "NUMEROS REALES"
-
 // CAMBIAR COLORES PALABRAS
-// SEPARAR HORAS
+// SEPARAR HORAS (ponerlas a la derecha)
 // AGREGAR TAREA DESDE INTERFAZ GRAFICA
 // PONER INSTRUCCIONES
 
 // PROBLEMA CON IF DE TAREA, NO SE ACTUALIZAN LOS VALORES DE HORA
-// FALTA ELIMINAR LLAMADAS Y NOTICIAS ENTRANTES Y LAS QUE SE ELIMINAN DE LA LISTA
-// ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0)
+// ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0) : if (1 cifra) -> agrega un 0

@@ -5,27 +5,28 @@ import java.util.Calendar;
 
 public class Noticia {
 	
-	int m, h, numero;
+	int m, h;
+	String twit;
 	
 	Calendar calendario = Calendar.getInstance();
 	
-	public Noticia(int numero) {
+	public Noticia(String twit) {
 		
-		this.numero = numero;
+		this.twit = twit;
 		this.m = calendario.get(Calendar.MINUTE);
 		this.h = calendario.get(Calendar.HOUR_OF_DAY);
 	}
 	
 	public void mostrar(boolean ocupado, Marco marco) {
 		if(!ocupado) {
-			System.out.println("nueva noticia!: noticia " + numero);
-			System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("nueva noticia!: noticia " + numero + " a las : " + h + ":" + m);
+			//System.out.println("nueva noticia!: noticia " + twit);
+			//System.out.println("a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("nueva noticia!: " + twit + " a las : " + h + ":" + m);
 			marco.recargarLamina();
 		}else{
-			System.out.println("noticia perdida: noticia " + numero);
-			System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("noticia perdida: noticia " + numero + " a las : " + h + ":" + m);
+			//System.out.println("noticia perdida: noticia " + twit);
+			//System.out.println("a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("noticia perdida: noticia " + twit + " a las : " + h + ":" + m);
 			marco.recargarLamina();
 		}
 	}

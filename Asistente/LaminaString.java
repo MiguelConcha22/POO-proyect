@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LaminaString extends JPanel{
+	private static final long serialVersionUID = 1L;
 	
 	List <String> palabras;
 	int posX, posY;
