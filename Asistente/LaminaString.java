@@ -11,7 +11,7 @@ public class LaminaString extends JPanel{
 	List <String> palabras;
 	int posX, posY;
 	
-	public LaminaString(int posX, int posY) {
+	public LaminaString(int posX, int posY) {		
 		this.palabras = new ArrayList<>();
 		this.posX = posX;
 		this.posY = posY;
@@ -29,8 +29,10 @@ public class LaminaString extends JPanel{
 		
 		super.paintComponent(g);
 		
+		g.drawString("instrucciones", this.posX - 150, 10);
+		
 		for(int i = 0; i < this.palabras.size(); i++) {
-			g.drawString(this.palabras.get(i), this.posX, this.posY - (palabras.size() - i - 1) * 20);
+			g.drawString(this.palabras.get(i), 10, this.posY - (palabras.size() - i - 1) * 20);
 		}
 	}
 

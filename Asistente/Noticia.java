@@ -21,17 +21,13 @@ public class Noticia {
 		if(!ocupado) {
 			//System.out.println("nueva noticia!: noticia " + twit);
 			//System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("nueva noticia!: " + twit + " a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("Look!, a breaking news: " + twit + " a las : " + h + ":" + m);
 			marco.recargarLamina();
 		}else{
 			//System.out.println("noticia perdida: noticia " + twit);
 			//System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("noticia perdida: noticia " + twit + " a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("Hey!, you have lost this story" + twit + " a las : " + h + ":" + m);
 			marco.recargarLamina();
 		}
-	}
-
-	public static void main(String[] args) {
-
 	}
 }

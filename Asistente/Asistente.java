@@ -1,11 +1,14 @@
 /**
- * Asistente personal que recibe llamadas y noticias
- * Se pueden agregar tareas por hacer
+ * Asistente personal que recibe llamadas y noticias de Twitter
+ * Se pueden agregar tareas por hacer y avisa cuando faltan 5 minutos
  * 
- * Fue necesario utilizar JFrame para poder implementar KeyListener
+ * Se utiliza JFrame, JPanel y diversos elementos de JavaSwing
  * 
- * Para entrar en modo ocupado: presionar "1"
- * Para agregar una tarea: presionar "2"
+ * Para obtener las noticias de Twitter se utiliza twitter5j
+ * 
+ * Las clases TwitterTest y Lamina, no se utilizan, fueron creadas para
+ * realizar pruebas y configurar elementos
+ * 
  */
 
 package Asistente;
@@ -13,35 +16,45 @@ package Asistente;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 import javax.swing.*;
+import java.util.Calendar;
+//import java.util.Scanner;
 
 import twitter4j.TwitterException;
 
 import java.awt.event.*;
 import java.io.IOException;
 
-public class Asistente extends JFrame implements KeyListener {
+public class Asistente extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
 	boolean ocupado;
 	
 	List <Llamada> llamadas;
-	List <Tarea> tareas;
+	//List <Tarea> tareas;
 
-	private Scanner in;
+	//private Scanner in;
 	
 	Marco miMarco;
 	
 	TwitterStreamTest twStream;
 	
-	public Asistente() throws TwitterException, IOException {		
+	JButton busy;
+	
+	Calendar calendario = Calendar.getInstance();
+	int hora, minuto;
+	
+	public Asistente() throws TwitterException, IOException {
 		miMarco = new Marco();
 		
 		miMarco.setVisible(true);
 		miMarco.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		miMarco.addKeyListener(this);
+		//miMarco.addKeyListener(this);
+		
+		busy = new JButton("ON/OFF Busy Mode");
+		busy.addActionListener(this);
+		miMarco.lamina.add(busy);
 		
 		twStream = new TwitterStreamTest();
 		twStream.start(miMarco);
@@ -49,13 +62,17 @@ public class Asistente extends JFrame implements KeyListener {
 		this.ocupado = false;
 		
 		this.llamadas = new ArrayList<>();
-		this.tareas = new ArrayList<>();
+		//this.tareas = new ArrayList<>();
 		
 		Random random = new Random();
 		int numero;
 		
 		while(true) {
 			//System.out.println(this.ocupado);
+			this.calendario = Calendar.getInstance();
+			
+			this.hora = calendario.get(Calendar.HOUR_OF_DAY);
+			this.minuto = calendario.get(Calendar.MINUTE);
 			
 			if(random.nextInt(100) <= 10) {
 				//numero de telefono aleatorio
@@ -90,10 +107,10 @@ public class Asistente extends JFrame implements KeyListener {
 	}*/
 	
 	public void mostrarTareas() {
-		if(this.tareas.size() > 0) {
-			for(int i = 0; i < this.tareas.size(); i++) {
-				Tarea entrante = (Tarea) this.tareas.get(i);
-				entrante.mostrar();
+		if(miMarco.lamina2.tareas.size() > 0) {
+			for(int i = 0; i < miMarco.lamina2.tareas.size(); i++) {
+				Tarea entrante = (Tarea) miMarco.lamina2.tareas.get(i);
+				entrante.mostrar(this.hora, this.minuto, miMarco);
 			}
 		}
 	}
@@ -109,8 +126,37 @@ public class Asistente extends JFrame implements KeyListener {
 	public static void main(String[] args) throws TwitterException, IOException {
 		new Asistente();
 	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(this.ocupado) {
+			this.ocupado = false;
+			twStream.ocupado = false;
+			//System.out.println("Modo ocupado desactivado");
+			miMarco.lamina.agregarPalabra("Modo ocupado desactivado");
+			miMarco.recargarLamina();
+			if(this.llamadas.size() > 0) {
+				for(int i = 0; i < this.llamadas.size(); i++) {
+					Llamada entrante = (Llamada) this.llamadas.get(i);
+					entrante.mostrar(!this.ocupado, miMarco);
+				}
+			}
+			if(twStream.noticias.size() > 0) {
+				for(int i = 0; i < twStream.noticias.size(); i++) {
+					Noticia entrante = (Noticia) twStream.noticias.get(i);
+					entrante.mostrar(!this.ocupado, miMarco);
+				}
+			}
+		}
+		else {
+			this.ocupado = true;
+			twStream.ocupado = true;
+			//System.out.println("Modo ocupado activado");
+			miMarco.lamina.agregarPalabra("Modo ocupado activado");
+			miMarco.recargarLamina();
+		}
+	}
 
-	public void keyPressed(KeyEvent e) {
+	/*public void keyPressed(KeyEvent e) {
 		if(KeyEvent.VK_1 == e.getKeyCode())
 			if(this.ocupado) {
 				this.ocupado = false;
@@ -158,13 +204,11 @@ public class Asistente extends JFrame implements KeyListener {
 	}
 
 	public void keyTyped(KeyEvent e) {
-	}
+	}*/
 }
 
 // CAMBIAR COLORES PALABRAS
-// SEPARAR HORAS (ponerlas a la derecha)
-// AGREGAR TAREA DESDE INTERFAZ GRAFICA
+// SEPARAR HORAS (ponerlas a la derecha).... ver al final, no es prioridad
 // PONER INSTRUCCIONES
 
-// PROBLEMA CON IF DE TAREA, NO SE ACTUALIZAN LOS VALORES DE HORA
-// ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0) : if (1 cifra) -> agrega un 0
+// ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0) : if (1 cifra) -> agrega un 0.... ver al final, no es prioridad
