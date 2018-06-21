@@ -11,8 +11,6 @@ public class LaminaString extends JPanel{
 	List <String> palabras;
 	int posX, posY;
 	
-	int colorstring;
-	
 	public LaminaString(int posX, int posY) {		
 		this.palabras = new ArrayList<>();
 		this.posX = posX;
