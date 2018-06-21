@@ -22,7 +22,7 @@ public class Tarea {
 		if((this.m <= m + 5) && (this.h == h) && !this.candado) {
 			//System.out.println("Recordatorio tarea: " + tarea);
 			//System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("Watch out!, don't forget this task: " + this.tarea + " a las : " + this.h + ":" + this.m);
+			marco.lamina.agregarPalabra("Watch out!, don't forget this task: " + this.tarea + " at : " + this.h + ":" + this.m);
 			marco.recargarLamina();
 			this.candado = true;
 		}

@@ -65,6 +65,10 @@ public class LaminaTarea extends JPanel implements ActionListener{
 		
 		this.tareas.add(new Tarea(nuevaTarea, hour, minute));
 		//System.out.print(nuevaTarea + String.valueOf(hour) + String.valueOf(minute));
+		
+		tf1.setText("");
+		spinner1.setValue("0");
+		spinner2.setValue("0");
 	}
 
 }

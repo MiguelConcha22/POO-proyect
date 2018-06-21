@@ -17,7 +17,7 @@ public class Marco extends JFrame{
 		int alturaPantalla = tamanoPantalla.height;
 		int anchoPantalla = tamanoPantalla.width;
 		
-		setBounds(anchoPantalla/4, alturaPantalla/4, anchoPantalla/4, alturaPantalla/2);
+		setBounds(anchoPantalla/4, alturaPantalla/4, anchoPantalla/2, alturaPantalla/2);
 		
 		setTitle("Navi");
 		

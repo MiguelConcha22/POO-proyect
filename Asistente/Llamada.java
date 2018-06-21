@@ -19,12 +19,12 @@ public class Llamada {
 		if(!ocupado) {
 			//System.out.println("llamada entrante de: +569" + numero);
 			//System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("Listen!, you have an incoming call from: +569" + numero + " a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("Listen!, you have an incoming call from: +569" + numero + " at : " + h + ":" + m);
 			marco.recargarLamina();
 		}else{
 			//System.out.println("llamada perdida de: +569" + numero);
 			//System.out.println("a las : " + h + ":" + m);
-			marco.lamina.agregarPalabra("Look!, you missed a call from: +569" + numero + " a las : " + h + ":" + m);
+			marco.lamina.agregarPalabra("Look!, you missed a call from: +569" + numero + " at : " + h + ":" + m);
 			marco.recargarLamina();
 		}
 	}

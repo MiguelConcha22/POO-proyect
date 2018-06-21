@@ -139,12 +139,14 @@ public class Asistente extends JFrame implements ActionListener {
 					Llamada entrante = (Llamada) this.llamadas.get(i);
 					entrante.mostrar(!this.ocupado, miMarco);
 				}
+				this.llamadas.clear();
 			}
 			if(twStream.noticias.size() > 0) {
 				for(int i = 0; i < twStream.noticias.size(); i++) {
 					Noticia entrante = (Noticia) twStream.noticias.get(i);
 					entrante.mostrar(!this.ocupado, miMarco);
 				}
+				twStream.noticias.clear();
 			}
 		}
 		else {
@@ -207,8 +209,4 @@ public class Asistente extends JFrame implements ActionListener {
 	}*/
 }
 
-// CAMBIAR COLORES PALABRAS
-// SEPARAR HORAS (ponerlas a la derecha).... ver al final, no es prioridad
-// PONER INSTRUCCIONES
-
-// ARREGLAR FORMATO DE LOS MINUTOS (FALTA UN 0) : if (1 cifra) -> agrega un 0.... ver al final, no es prioridad
+// CUANDO LOS MINUTOS SON MENORES A 10, HAY UN PEQUEÑO "ERROR" EN EL FORMATO

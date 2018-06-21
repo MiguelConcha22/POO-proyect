@@ -11,6 +11,8 @@ public class LaminaString extends JPanel{
 	List <String> palabras;
 	int posX, posY;
 	
+	int colorstring;
+	
 	public LaminaString(int posX, int posY) {		
 		this.palabras = new ArrayList<>();
 		this.posX = posX;
@@ -29,7 +31,9 @@ public class LaminaString extends JPanel{
 		
 		super.paintComponent(g);
 		
-		g.drawString("instrucciones", this.posX - 150, 10);
+		//g.setColor(Color.RED);
+		g.drawString("In busy mode, you will only", this.posX - 180, 10);
+		g.drawString("get notifications from tasks", this.posX - 180, 30);
 		
 		for(int i = 0; i < this.palabras.size(); i++) {
 			g.drawString(this.palabras.get(i), 10, this.posY - (palabras.size() - i - 1) * 20);
